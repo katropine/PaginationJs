@@ -92,7 +92,7 @@ $j(document).ready(function(){
         $scope.search = function(){
             
             $http({
-                url: '...',
+                url: '/users/total',
                 method: 'POST',
                 data: {},
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
@@ -101,7 +101,7 @@ $j(document).ready(function(){
                 $scope.pg = $scope.paginator.paginate($scope.pg.page, $scope.userCount);
                 
                 $http({
-                    url: '...',
+                    url: '/users',
                     method: 'POST',
                     data: {offset : $scope.paginator.getOffset(), limit : $scope.paginator.getLimit()},
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
