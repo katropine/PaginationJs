@@ -11,17 +11,18 @@ var pg;
 
 function getNewData(pgnum){
     var totalCount = 250; // COUNT(*)
-    var pg = {page:1};
-    var itemsPerPage = 10;
-
+    var itemsPerPage = 10; // number of rows
+    var pagedItems = 5; // number of pages
+    
     var paginator = new Paginator(itemsPerPage, pagedItems);
+    pg = paginator.paginate(pgnum, totalCount);
     
     // pseudo request
     ajax({
         // options
         data: {offset : paginator.getOffset(), limit : paginator.getLimit()}
-    }).success({
-        pg = paginator.paginate(pgnum, totalCount);
+    }).success(function(data){
+        console.log(data);
     });
     
     return false;
@@ -29,16 +30,16 @@ function getNewData(pgnum){
 
 jQuery(document).ready(function(){
     jQuery(".first").click(function(){
-        doThePagging(pg.first);
+        getNewData(pg.first);
     });
     jQuery(".prev").click(function(){
-        doThePagging(pg.prev);
+        getNewData(pg.prev);
     });
     jQuery(".next").click(function(){
-        doThePagging(pg.next);
+        getNewData(pg.next);
     });
     jQuery(".last").click(function(){
-        doThePagging(pg.last);
+        getNewData(pg.last);
     });
 });
 
