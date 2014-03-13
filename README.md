@@ -7,16 +7,44 @@ HOW TO:
 =======
 
 ```JS
-var totalCount = 250; // COUNT(*)
-var pg = {page:1};
-var itemsPerPage = 10;
-var pagedItems = 5; 
+var pg;
 
-var paginator = new Paginator(itemsPerPage, pagedItems);
-pg = paginator.paginate(pg.page, totalCount);
+function getNewData(pgnum){
+    var totalCount = 250; // COUNT(*)
+    var pg = {page:1};
+    var itemsPerPage = 10;
+
+    var paginator = new Paginator(itemsPerPage, pagedItems);
+    
+    // pseudo request
+    ajax({
+        // options
+        data: {offset : paginator.getOffset(), limit : paginator.getLimit()}
+    }).success({
+        pg = paginator.paginate(pgnum, totalCount);
+    });
+    
+    return false;
+}
+
+jQuery(document).ready(function(){
+    jQuery(".first").click(function(){
+        doThePagging(pg.first);
+    });
+    jQuery(".prev").click(function(){
+        doThePagging(pg.prev);
+    });
+    jQuery(".next").click(function(){
+        doThePagging(pg.next);
+    });
+    jQuery(".last").click(function(){
+        doThePagging(pg.last);
+    });
+});
+
 ```
 
-HOW TO Pagination and AngularJS:
+HOW TO: Pagination and AngularJS:
 ===============================
 
 ```JS
