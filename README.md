@@ -50,8 +50,8 @@ HOW TO: Pagination and AngularJS:
 
 ```JS
 function UsersController($scope, $http){
-    $scope.itemsPerPage = 3; // 3 links in pagination
-    $scope.pagedItems = 10; // 10 rows
+    $scope.itemsPerPage = 10; // 10 rows
+    $scope.pagedItems = 5; // 5 links in pagination 
     $scope.pg = {};
     $scope.pg.page = 1;
     $scope.paginator = new Paginator($scope.itemsPerPage, $scope.pagedItems);
