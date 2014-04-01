@@ -70,55 +70,55 @@ $j(document).ready(function(){
 });
  *
  *  var Paging = new Paginator(10, 5);    // init(limit, howMenyNumbersInMenu)    -> (10 rows, << < 1 2 3 4 5 > >>)
- *  var total = [?php echo $SomeModel->countAll();?] or... 
- *  var pg = Paging.paginate($_REQUEST['page'], total); 
+ *  var total = [?php echo $SomeModel->countAll();?] or...
+ *  var pg = Paging.paginate($_REQUEST['page'], total);
  *  // for the method that puls data, add to sql: LIMIT "Paging.getOffset().",".Paging.getLimit();
  * ========================================================================================
  * THATS IT!!!!!!!!!!!!!!!!
  *
  *  AngularJS controler methods
- * 
- * 
+ *
+ *
  * function UsersController($scope, $http){
- * 
- *      
+ *
+ *
         $scope.itemsPerPage = 3; // 3 links in pagination
         $scope.pagedItems = 10; // 10 rows
         $scope.pg = {};
         $scope.pg.page = 1;
-        
+
         $scope.paginator = new Paginator($scope.itemsPerPage, $scope.pagedItems);
-        
+
         $scope.search = function(){
-            
+
             $http({
                 url: '/users/total',
                 method: 'POST',
                 data: {},
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }).success(function (data, status, headers, config) {
-                $scope.userCount =  parseInt(data); 
+                $scope.userCount =  parseInt(data);
                 $scope.pg = $scope.paginator.paginate($scope.pg.page, $scope.userCount);
-                
+
                 $http({
                     url: '/users',
                     method: 'POST',
                     data: {offset : $scope.paginator.getOffset(), limit : $scope.paginator.getLimit()},
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 }).success(function (data, status, headers, config) {
-                    $scope.users = data; 
-           
+                    $scope.users = data;
+
                 });
             });
-                 
+
         };
-        
+
         $scope.setPage = function(p){
             $scope.pg.page = p;
             $scope.search();
         };
-        
-        
+
+
         $scope.range = function (start, end) {
             var ret = [];
             if (!end) {
@@ -140,11 +140,11 @@ $j(document).ready(function(){
                 $scope.setPage($scope.pg.prev);
             }
         };
-  };      
- * 
- * 
+  };
+ *
+ *
  * Html:
- * 
+ *
     <ul class="pagination pagination-sm">
         <li ng-class="(1==pg.page)?'disabled':''"><a href="#" ng-click="setPrev()">&laquo;</a></li>
         <li ng-class="(n==pg.page)?'active':''" ng-repeat="n in range(pagedItems)" ng-click="setPage(n)">
@@ -152,11 +152,11 @@ $j(document).ready(function(){
         </li>
         <li ng-class="(pg.last==pg.page)?'disabled':''"><a href="#" ng-click="setNext()">&raquo;</a></li>
     </ul>
- * 
+ *
  */
-function Paginator(numberOfResoults, numberOfLinks){
+function Paginator(numberOfResults, numberOfLinks){
 
-    this.numOfResoults = numberOfResoults;
+    this.numOfResults = numberOfResults;
     this.numberOfLinks = numberOfLinks;
     this.page = 1;
     this.numberOfLinksCnt = null;
@@ -189,8 +189,8 @@ function Paginator(numberOfResoults, numberOfLinks){
         var mid = Math.floor(this.numberOflinks/2);
         var numpages = 0;
 
-        if(total > this.numOfResoults){
-            numpages = Math.ceil(total/this.numOfResoults);
+        if(total > this.numOfResults){
+            numpages = Math.ceil(total/this.numOfResults);
         }else{
             numpages = 1;
         }
@@ -228,10 +228,10 @@ function Paginator(numberOfResoults, numberOfLinks){
         if ((page+1)<numpages) {paging.next = page + 1;}else{ paging.next = numpages;}
         paging.last = numpages;
         paging.total = total;
-        paging.iend = page * this.numOfResoults;
-        paging.istart = (page * this.numOfResoults) - this.numOfResoults + 1;
+        paging.iend = page * this.numOfResults;
+        paging.istart = (page * this.numOfResults) - this.numOfResults + 1;
 
-        if ((page * this.numOfResoults)>total){ paging.iend = total;}
+        if ((page * this.numOfResults)>total){ paging.iend = total;}
 
         return paging;
     };
@@ -240,7 +240,7 @@ function Paginator(numberOfResoults, numberOfLinks){
      * @return int Number or rows per page
      */
     this.getLimit = function(){
-        return this.numOfResoults;
+        return this.numOfResults;
     };
     /**
      *
@@ -248,6 +248,6 @@ function Paginator(numberOfResoults, numberOfLinks){
      * @return int to start from record number
      */
     this.getOffset = function(){
-        return ((this.page-1) * this.numOfResoults);
+        return ((this.page-1) * this.numOfResults);
     };
 }
