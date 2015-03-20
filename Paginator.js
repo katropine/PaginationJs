@@ -2,7 +2,7 @@
  * Paginator
  *
  * @author kristian@katropine.com
- * @version 1.0
+ * @version 1.1
  * @copyright Kristian Beres <kristian@katropine.com>
  * @licence MIT
  *
@@ -172,8 +172,10 @@ function Paginator(numberOfResults, numberOfLinks){
      *               paging.total = number of results
      *               paging.istart = starting (row) result number for current page
      *               paging.iend = ending (row) result number for current page
+     *               paging.range = [] array of page numbers used for generating 1,2,3.... links
      */
     this.paginate = function (page, total){
+        page = parseInt(page);
         if(page > 1){
             this.page = page;
         }else{
@@ -218,21 +220,32 @@ function Paginator(numberOfResults, numberOfLinks){
             last: null,
             total: null,
             iend: null,
-            istart: null
+            istart: null,
+            range: null
         };
         paging.first = 1;
         if (page>1) {paging.prev = page - 1;}else{ paging.prev = 1;}
         paging.start = npage;
         paging.end = lastpage;
         paging.page = page;
-        if ((page+1)<numpages) {paging.next = page + 1;}else{ paging.next = numpages;}
+        if (numpages >= (page+1)) {paging.next = page + 1;}else{ paging.next = numpages;}
         paging.last = numpages;
         paging.total = total;
         paging.iend = page * this.numOfResults;
         paging.istart = (page * this.numOfResults) - this.numOfResults + 1;
 
         if ((page * this.numOfResults)>total){ paging.iend = total;}
-
+        
+        /* calculate range of buttons */
+        var ret = [];
+       
+        end = paging.end;
+        start = paging.start;
+       
+        for (var i = start; i <= end; i++) {
+            ret.push(i);
+        }
+        paging.range = ret;       
         return paging;
     };
     /**
@@ -250,4 +263,5 @@ function Paginator(numberOfResults, numberOfLinks){
     this.getOffset = function(){
         return ((this.page-1) * this.numOfResults);
     };
+        
 }
