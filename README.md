@@ -55,7 +55,7 @@ function UsersController($scope, $http){
     $scope.pg = {};
     $scope.pg.page = 1;
     $scope.paginator = new Paginator($scope.itemsPerPage, $scope.pagedItems);
-    $scope.search = function(){
+   
         $http({
             url: '/users/total',
             method: 'POST',
@@ -74,36 +74,7 @@ function UsersController($scope, $http){
                 $scope.users = data;
             });
         });
-    };
-
-    $scope.setPage = function(p){
-        $scope.pg.page = p;
-        $scope.search();
-    };
     
-    $scope.range = function (start, end) {
-        var ret = [];
-        if (!end) {
-            end = $scope.pg.end;
-            start = $scope.pg.start;
-        }
-        for (var i = start; i <= end; i++) {
-            ret.push(i);
-        }
-        return ret;
-    };
-
-    $scope.setNext = function(){
-        if($scope.pg.last!=$scope.pg.page){
-          $scope.setPage($scope.pg.next);
-        }
-    };
-
-    $scope.setPrev = function(){
-        if($scope.pg.page > 1){
-            $scope.setPage($scope.pg.prev);
-        }
-    };
 };
 ```
 
@@ -112,10 +83,10 @@ Html:
 -------
 ```code
 <ul class="pagination pagination-sm">
-    <li ng-class="(1==pg.page)?'disabled':''"><a href="#" ng-click="setPrev()">&laquo;</a></li>
-    <li ng-class="(n==pg.page)?'active':''" ng-repeat="n in range(pagedItems)" ng-click="setPage(n)">
-        <a href="#" ng-bind="n">1</a>
+    <li ng-class="(1==pg.page)?'disabled':''"><a href="#/mylist/{{pg.prev}}">&laquo;</a></li>
+    <li ng-class="(n==pg.page)?'active':''" ng-repeat="n in pg.range">
+        <a href="#/mylist/{{n}}" ng-bind="n">1</a>
     </li>
-    <li ng-class="(pg.last==pg.page)?'disabled':''"><a href="#" ng-click="setNext()">&raquo;</a></li>
+    <li ng-class="(pg.last==pg.page)?'disabled':''"><a href="#/mylist/{{pg.next}}">&raquo;</a></li>
 </ul>
 ```
