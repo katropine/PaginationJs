@@ -49,11 +49,11 @@ HOW TO: Pagination and AngularJS:
 ===============================
 
 ```JS
-function UsersController($scope, $http){
+function UsersController($scope, $http, $routeParams){
     $scope.itemsPerPage = 10; // 10 rows
     $scope.pagedItems = 5; // 5 links in pagination 
     $scope.pg = {};
-    $scope.pg.page = 1;
+    $scope.pg.page = ($routeParams.page == null || $routeParams.page == undefined)? 1 : $routeParams.page;
     $scope.paginator = new Paginator($scope.itemsPerPage, $scope.pagedItems);
    
         $http({
