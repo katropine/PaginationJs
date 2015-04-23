@@ -4,7 +4,8 @@
  *		
  * @author Kriss
  * @version 2.2
- *
+ * @copyright Kristian Beres <kristian@katropine.com>
+ * @licence MIT
  *
  * How to:
  *
